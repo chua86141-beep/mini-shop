@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="简购商城 - 精选数码、服饰、家居、美妆好物，一站式品质购物体验。">
+  <title>简购商城 - 精选好物，轻松购</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 顶部通知栏 -->
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span>🎉 新用户专享 9 折优惠，全场满 199 包邮</span>
+      <span class="topbar-links">
+        <a href="#" id="helpLink">帮助中心</a>
+        <span class="sep">|</span>
+        <a href="#" id="aboutLink">关于我们</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- 头部导航 -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="logo" href="#home"><span class="logo-icon">🛍️</span><span>简购商城</span></a>
+      <div class="search">
+        <input id="searchInput" type="text" placeholder="搜索商品，如「耳机」「保温杯」" autocomplete="off">
+        <button id="searchBtn" aria-label="搜索">🔍</button>
+      </div>
+      <nav class="nav">
+        <a href="#home" class="nav-link">首页</a>
+        <a href="#products" class="nav-link">全部商品</a>
+        <button id="cartBtn" class="cart-btn" aria-label="购物车">
+          🛒 购物车 <span id="cartCount" class="badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 首页 Hero -->
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <span class="hero-tag">NEW · 新品上市</span>
+          <h1>精选好物，<br>轻松购</h1>
+          <p>数码 · 服饰 · 家居 · 美妆<br>一站式品质购物体验</p>
+          <button class="btn btn-primary" data-scroll="products">立即选购 →</button>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="hero-emoji">🛍️</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 商品区 -->
+    <section id="products" class="container products-section">
+      <div class="section-head">
+        <h2>全部商品</h2>
+        <p class="section-sub">共 <span id="productTotal">0</span> 件商品</p>
+      </div>
+
+      <div class="toolbar">
+        <div class="filters" id="filters" role="tablist" aria-label="商品分类"></div>
+        <div class="sort">
+          <label for="sortSelect">排序</label>
+          <select id="sortSelect">
+            <option value="default">综合推荐</option>
+            <option value="sales">销量优先</option>
+            <option value="price-asc">价格从低到高</option>
+            <option value="price-desc">价格从高到低</option>
+            <option value="rating">评分最高</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+      <div id="emptyState" class="empty hidden">
+        <span class="empty-emoji">🔍</span>
+        <p>没有找到相关商品，换个关键词试试吧</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <div class="footer-logo">🛍️ 简购商城</div>
+        <p>精选全球好物，为你带来更好的生活方式。</p>
+      </div>
+      <div class="footer-col">
+        <h4>购物指南</h4>
+        <a href="#">购物流程</a>
+        <a href="#">会员制度</a>
+        <a href="#">常见问题</a>
+      </div>
+      <div class="footer-col">
+        <h4>售后服务</h4>
+        <a href="#">退换货政策</a>
+        <a href="#">价格保护</a>
+        <a href="#">联系我们</a>
+      </div>
+      <div class="footer-col">
+        <h4>关于我们</h4>
+        <a href="#">公司介绍</a>
+        <a href="#">加入我们</a>
+        <a href="#">隐私政策</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">© 2026 简购商城 · 本站为演示项目，不提供真实交易</div>
+    </div>
+  </footer>
+
+  <!-- 商品详情弹窗 -->
+  <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="商品详情">
+    <div class="modal-backdrop" data-close="productModal"></div>
+    <div class="modal-card">
+      <button class="modal-close" data-close="productModal" aria-label="关闭">✕</button>
+      <div id="productModalContent" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- 购物车抽屉 -->
+  <div id="cartOverlay" class="overlay hidden" data-close="cart"></div>
+  <aside id="cartDrawer" class="drawer hidden" aria-label="购物车">
+    <div class="drawer-head">
+      <h3>购物车 <span id="cartTitleCount" class="muted"></span></h3>
+      <button class="icon-btn" data-close="cart" aria-label="关闭购物车">✕</button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="cart-total-row">
+        <span>合计（不含运费）</span>
+        <span class="cart-total" id="cartSubtotal">¥0</span>
+      </div>
+      <button class="btn btn-primary btn-block" id="checkoutBtn">去结算</button>
+      <button class="btn btn-ghost btn-block" id="clearCartBtn">清空购物车</button>
+    </div>
+  </aside>
+
+  <!-- 结算弹窗 -->
+  <div id="checkoutModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="结算">
+    <div class="modal-backdrop" data-close="checkoutModal"></div>
+    <div class="modal-card modal-card-wide">
+      <button class="modal-close" data-close="checkoutModal" aria-label="关闭">✕</button>
+      <div class="modal-content">
+        <h3 class="checkout-title">确认订单</h3>
+        <div class="checkout-summary" id="checkoutSummary"></div>
+        <form id="checkoutForm" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="fName">收货人</label>
+              <input id="fName" type="text" placeholder="请输入姓名" required>
+            </div>
+            <div class="form-field">
+              <label for="fPhone">手机号</label>
+              <input id="fPhone" type="tel" placeholder="请输入手机号" required>
+            </div>
+            <div class="form-field form-field-full">
+              <label for="fAddress">收货地址</label>
+              <input id="fAddress" type="text" placeholder="请输入详细地址" required>
+            </div>
+            <div class="form-field form-field-full">
+              <label>支付方式</label>
+              <div class="pay-options">
+                <label class="pay-option"><input type="radio" name="pay" value="支付宝" checked> 支付宝</label>
+                <label class="pay-option"><input type="radio" name="pay" value="微信支付"> 微信支付</label>
+                <label class="pay-option"><input type="radio" name="pay" value="货到付款"> 货到付款</label>
+              </div>
+            </div>
+          </div>
+          <div class="checkout-total-row">
+            <span>应付总额</span>
+            <span class="cart-total" id="checkoutTotal">¥0</span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">提交订单</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下单成功弹窗 -->
+  <div id="successModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close="successModal"></div>
+    <div class="modal-card modal-card-sm">
+      <button class="modal-close" data-close="successModal" aria-label="关闭">✕</button>
+      <div class="success-box">
+        <div class="success-icon">✅</div>
+        <h3>下单成功！</h3>
+        <p>感谢您的购买，商品即将送达。</p>
+        <p class="muted" id="successOrderId"></p>
+        <button class="btn btn-primary btn-block" data-close="successModal">继续逛逛</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div id="toast" class="toast hidden" role="status"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
